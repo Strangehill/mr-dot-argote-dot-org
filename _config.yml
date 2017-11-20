@@ -12,6 +12,14 @@ github_username:  MrArgote
 
 permalink: pretty
 
+collections:
+  worksheets:
+    output: true
+  tools:
+    output: true
+  shopping:
+    output: true
+
 # Build settings
 markdown: kramdown
 theme: minima
