@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{page.title}}</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Coming+Soon|PT+Sans|Slabo+27px" rel="stylesheet">
+
+<style>
+{% capture style %}
+
+  // Styles
+  // * Fancy Print Styles (that are not implemented by any major browser)
+  // * Base Styles
+  // * Reliable Print Styles
+  // * Display Nones on Screen
+  // * Style Styles
+  // * Sub-Layout and Page Styles
+
+  // Fancy Print Styles
+    // The following style api is not in available on Chrome yet (or
+    // any other browser I know of).
+    // They should work to different degrees in paid user-agents such as
+    // princexml, and antennahouse. I am not clear on their implementation in
+    // wkhtmltopdf or other free alternatives
+
+  @media print {
+    @page { @top-center { content: "{{ site.title }}!"; } }
+    @page:first { @bottom-right-corner { // QR Code
+      content: url(https://chart.googleapis.com/chart?cht=qr&chs=100x100&chl=http://{{site.baseurl}}{{page.url}}&choe=UTF-8);
+    } }
+    @page:left { @top-left-corner { content: counter(page); } }
+    @page:right { @top-right-corner { content: counter(page); } }
+  }
+
+  // Base Styles
+
+  html {
+    background-color: #666;
+    background-image: linear-gradient(#777,#555);
+  }
+  body {
+    border: dotted 1px #DDD;
+    box-shadow: 1em 1em 1em #CCC;
+  {% case page.class %}
+    {% when 'eng1' or 'eng2' or 'eng3' %} font-family: 'Coming Soon', cursive;
+    {% when 'eng4' or 'eng5' or 'eng6' %} font-family: 'PT Sans', sans-serif;
+    {% else %} font-family: 'Slabo 27px', serif;
+  {% endcase %}
+    position: relative;
+  }
+
+  // Reliable Print Styles
+
+  @media all { .page-break { display: none; } }
+
+  @media print {
+    body {
+      border: none;
+      box-shadow: none;
+    }
+    .page-break {
+      display: block;
+      page-break-before: always;
+    }
+    img {
+      max-width: 100%;
+      page-break-inside: avoid;
+    }
+    a {    // untested
+      font-weight: bolder;
+      text-decoration: underline;
+      &[href^="#"]:after {
+        font-weight: inherit;
+      }
+    }
+    .printout .header {
+      .name {
+        float: right;
+        padding-top: 2em;
+      }
+    }
+  }
+
+  // More Reliable Print Styles
+  // QR Code, Computer and speaker icons.
+  @media print {
+    .header h1 img {
+        vertical-align: middle;
+        &:first-of-type { height: 5rem; margin-left: 6rem; margin-right: 1rem; }
+        &:not(first-of-type) { height: 2rem; }
+    }
+  }
+
+  // Display Nones on Screen
+  @media screen {
+    .printout .header {
+      h1 img { display: none; }
+      .name { display: none; }
+    }
+  }
+
+  // Style Styles
+  .printout .header {
+    h1,h2 { margin: 0; }
+    .subtitle-and-instructions {
+      align-items: baseline;
+      display:flex;
+      justify-content: space-around;
+      width: 100%;
+      .helper_label { margin-right: 1.2rem; }
+    }
+  }
+
+{% if layout.paper_style %} {{ layout.paper_style }} {% endif %}
+{% if page.one_off_styles %} {{ page.one_off_styles }} {% endif %}
+
+{% endcapture %}
+
+{{ style | scssify }}
+
+</style>
+
+</head>
+
+<body class="printout">
+
+  <div class="header">
+    <span class="name"> name: ________________________________ </span>
+    <h1>
+      {{ page.title }}
+      <img src="https://chart.googleapis.com/chart?cht=qr&chs=100x100&chl={{site.url}}{{page.url}}&choe=UTF-8" alt="">
+      <img src="/assets/ui/sound-on.svg" width="50px" alt="">
+    </h1>
+    <div class="subtitle-and-instructions">
+      <h2>{{ page.subtitle }}</h2>
+      <div class="helper"><span class="helper_label">HELPER:</span>Want to help? Read the words out loud for learners. Help them guess what letters match what sounds.</div>
+    </div>
+  </div>
+
+  <div class="content">
+    {{ content }}
+  </div>
+
+</body>
+
+</html>
+

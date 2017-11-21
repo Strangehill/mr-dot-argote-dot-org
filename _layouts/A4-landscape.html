@@ -1,0 +1,31 @@
+---
+layout: printout
+paper_style: |
+  html {
+    background-image: linear-gradient(to right, #999,#777);
+    background-color: #888;
+    border-top: 1px dotted black;
+  }
+  body {
+    background-color: #FFF;
+    border-top: 1px solid black;
+    box-shadow: 1em 1em 1em #342;
+    margin: 0 auto;
+    width: 11.7in;
+  }
+  @media print {
+    body {
+      box-shadow: none;
+    }
+    @page {
+      //size: 8.27in 11.7in;
+      size: A4 landscape;
+      }
+    }
+---
+
+{{ content }}
+
+
+
+

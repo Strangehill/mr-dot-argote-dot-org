@@ -1,0 +1,25 @@
+---
+layout: printouts
+paper_style: |
+  html {
+    background-image: linear-gradient(#9DB,#9BD);
+    background-color: #9CC;
+  }
+  body {
+    background-color: #FFF;
+    box-shadow: 1em 1em 1em #CAA;
+    width: 6.9in;
+    //padding: 0in;
+  }
+  @media print {
+    body {
+      box-shadow: none;
+    }
+  //  @page {size:6.9in 9.8in;}
+  }
+---
+
+{{ content }}
+
+
+

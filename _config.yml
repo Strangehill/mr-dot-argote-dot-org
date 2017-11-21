@@ -20,6 +20,13 @@ collections:
   shopping:
     output: true
 
+defaults:
+  -
+    scope:
+      type: "worksheets"
+    values:
+      layout: "printout"
+
 # Build settings
 markdown: kramdown
 theme: minima
