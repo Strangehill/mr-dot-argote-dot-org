@@ -45,6 +45,7 @@
   body {
     border: dotted 1px #DDD;
     box-shadow: 1em 1em 1em #CCC;
+    box-sizing: border-box;
   {% case page.class %}
     {% when 'eng1' or 'eng2' or 'eng3' %} font-family: 'Coming Soon', cursive;
     {% when 'eng4' or 'eng5' or 'eng6' %} font-family: 'PT Sans', sans-serif;
@@ -112,6 +113,14 @@
       justify-content: space-around;
       width: 100%;
       .helper_label { margin-right: 1.2rem; }
+    }
+  }
+
+  @media (max-width: 700px){
+    .printout .header {
+      .subtitle-and-instructions {
+        flex-wrap: wrap;
+      }
     }
   }
 

@@ -6,7 +6,7 @@ class: eng1
 yaml-letters-and-lexicon:
   - A a,apple=_pple,ant=___,alligator=_lli_a_o_,astronaut=_stronau_,ax=__,Africa=______
   - B b,baby=_a_y,book=_oo_,bee=b__,bird=_ir_,butterfly=__tt_r_ly
-  - C c,cat=__t,clock=_l_ck,can=___,cloud=__ou_,cockroach=__ck_oa__
+  - C c,cat=__t,clock=_l_ck,can=___,cloud=__ou_,cockroach=__ck_oa__,caterpillar=___er__llar
   - C c,centipede=_____pede,circle=___cle,cemetery=__me__ry,city=__ty,cereal=__rea_
   - D d,dog=___,doctor=___to_,desk=____,duck=_uck,dinosaur=____sau_,dolphin=___ph__
   - E e,egg=_gg,elephant=___ph___,earth=_arth,eraser=_ra___,eight=_igh_
@@ -46,42 +46,40 @@ one_off_styles: |
     &_The-Hero {
       color: #FFF;
       font-size: 5rem;
+      padding: 0 0.2em;
       text-shadow: 1px 1px 5px blue, -1px -1px 5px red;
+      flex-basis: auto;
     }
-    &_pics-and-blanks {
-      display: inline-flex;
+    &_pics-and-blanks_combo {
       flex-grow: 1;
       justify-content: space-around;
-      &_combo {
-        flex-grow: 1;
-        margin-top: 0.6rem;
-        text-align: center;
-        img {
-          height: 4rem;
-          display: inline-block;
-          padding: 0.5rem;
-          &:hover {
-            background-image: radial-gradient(#FED, white 65%, #CCC 66%, #666 70%, hsla(0,0,100%,0) 71%);
-            background-clip: padding-box;
-            cursor: pointer;
-            margin-bottom: 0.5em;
-            animation: spinWhenRead 0.6s ease-in-out ;
-            @keyframes spinWhenRead{
-              0% { transform: scale(1) rotate(0deg);}
-              83% { transform: scale(1.8) rotate(360deg);}
-              100% { transform: scale(1) rotate(360deg);}
-            }
+      margin-top: 0.6rem;
+      text-align: center;
+      img {
+        height: 4rem;
+        display: inline-block;
+        padding: 0.5rem;
+        &:hover {
+          background-image: radial-gradient(#FED, white 65%, #CCC 66%, #666 70%, hsla(0,0,100%,0) 71%);
+          background-clip: padding-box;
+          cursor: pointer;
+          margin-bottom: 0.5em;
+          animation: spinWhenRead 0.6s ease-in-out ;
+          @keyframes spinWhenRead{
+            0% { transform: scale(1) rotate(0deg);}
+            83% { transform: scale(1.8) rotate(360deg);}
+            100% { transform: scale(1) rotate(360deg);}
           }
         }
-        div {
-          font-size: 1.2em;
-          letter-spacing: 0.14em;
-          transition: all 0.4s ease-in-out;
-          word-spacing: 0.2em;
-          span {
-            position: relative;
-            top: 0.2em;
-          }
+      }
+      div {
+        font-size: 1.2em;
+        letter-spacing: 0.14em;
+        transition: all 0.4s ease-in-out;
+        word-spacing: 0.2em;
+        span {
+          position: relative;
+          top: 0.2em;
         }
       }
     }
@@ -196,6 +194,32 @@ one_off_styles: |
       display: none;
     }
   }
+  @media (max-width: 700px){
+    body.printout {
+      background-color: #FFF;
+      padding: 0 0.5em;
+      width: 100%;
+    }
+    .a-letter {
+      flex-wrap: wrap;
+      //&_The-Hero { min-width: calc(100%/3); }
+      &_pics-and-blanks_combo { min-width: calc(100%/4); }
+    }
+    .answers {
+      padding-left: 0.7rem;
+      padding-right: 0.7rem;
+      text-align: center;
+      &_label {
+        margin-right: 1.5rem;
+      }
+    }
+  }
+  @media (max-width: 450px){
+    .a-letter {
+      //&_The-Hero { min-width: calc(100%/2); }
+      &_pics-and-blanks_combo { min-width: calc(100%/3); }
+    }
+  }
 ---
 
 <form class="no-widget">
@@ -229,22 +253,16 @@ one_off_styles: |
     {% endif %}
   {% endfor %}
   <div class="a-letter">
-  <div class="a-letter_The-Hero {%if rowsOfLetters >=28 %}a-letter_The-Hero-wider{%endif%}">{{ itemArray[0] }}</div>
-  <div class="a-letter_pics-and-blanks">
-    {% for nth in (1..lastIndex) %}
-      {% assign wordPicPairArray = itemArray[nth] | split: "=" %}
-    <div id="{% if wordPicPairArray.size==3 %}{{wordPicPairArray[2]}}{% else %}{{wordPicPairArray[0]}}{% endif %}" class="a-letter_pics-and-blanks_combo">
-        <img src="/assets/icons-and-clipart/svg/own/lexicon/{{ wordPicPairArray[0] }}.svg" height="60" />
-        <div>{{ wordPicPairArray[1] | replace: '_', '<span>_</span>' }}</div>
-      </div>
-      {% comment %}
-      <div id="{{wordPicPairArray[1]}}" class="a-letter_pics-and-blanks_combo">
-        <img src="/assets/icons-and-clipart/svg/own/lexicon/{{ wordPicPairArray[0] }}.svg" height="60" />
-        <div>{{ wordPicPairArray[2] | replace: '_', '<span>_</span>' }}</div>
-      </div>
-      {% endcomment %}
-    {% endfor %}
+  <div class="a-letter_The-Hero">
+    {{ itemArray[0] }}
   </div>
+  {% for nth in (1..lastIndex) %}
+  {% assign wordPicPairArray = itemArray[nth] | split: "=" %}
+  <div id="{% if wordPicPairArray.size==3 %}{{wordPicPairArray[2]}}{% else %}{{wordPicPairArray[0]}}{% endif %}" class="a-letter_pics-and-blanks_combo">
+    <img src="/assets/icons-and-clipart/svg/own/lexicon/{{ wordPicPairArray[0] }}.svg" height="60" />
+    <div>{{ wordPicPairArray[1] | replace: '_', '<span>_</span>' }}</div>
+  </div>
+  {% endfor %}
   </div>
   {% assign rowsOfLetters = rowsOfLetters | plus: 1 %}
   {% if
